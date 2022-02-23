@@ -14,16 +14,16 @@ export class UserController extends BaseController implements IUserController {
 
     this.bindRoutes([
       { method: 'post', path: '/login', func: this.login },
-      { method: 'post', path: '/register', func: this.register }
+      { method: 'post', path: '/register', func: this.register },
     ])
   }
 
-  login(req: Request, res: Response, next: NextFunction) {
+  login(req: Request, res: Response, next: NextFunction): void {
     // next(new HTTPError(401, 'Ошибка авторизации', 'login'))
     this.ok(res, 'login')
   }
 
-  register(req: Request, res: Response, next: NextFunction) {
+  register(req: Request, res: Response, next: NextFunction): void {
     this.ok(res, 'register')
   }
 }
