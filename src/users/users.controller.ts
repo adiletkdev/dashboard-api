@@ -8,9 +8,8 @@ import 'reflect-metadata'
 import { IUserController } from './users.controller.interface'
 import { UserLoginDto } from './dto/users-login.dto'
 import { UserRegisterDto } from './dto/users-register.dto'
-import { User } from './user.entity'
-import { IUserService } from './users.service.interface'
 import { UserService } from './users.service'
+import { ValidateMiddleware } from '../common/validate.middleware'
 
 @injectable()
 export class UserController extends BaseController implements IUserController {
@@ -22,7 +21,12 @@ export class UserController extends BaseController implements IUserController {
 
     this.bindRoutes([
       { method: 'post', path: '/login', func: this.login },
-      { method: 'post', path: '/register', func: this.register },
+      {
+        method: 'post',
+        path: '/register',
+        func: this.register,
+        middlewares: [new ValidateMiddleware(UserRegisterDto)],
+      },
     ])
   }
 
