@@ -20,7 +20,12 @@ export class UserController extends BaseController implements IUserController {
     super(loggerService)
 
     this.bindRoutes([
-      { method: 'post', path: '/login', func: this.login },
+      {
+        method: 'post',
+        path: '/login',
+        func: this.login,
+        middlewares: [new ValidateMiddleware(UserLoginDto)],
+      },
       {
         method: 'post',
         path: '/register',
@@ -30,9 +35,15 @@ export class UserController extends BaseController implements IUserController {
     ])
   }
 
-  login(req: Request<{}, {}, UserLoginDto>, res: Response, next: NextFunction): void {
-    console.log(req.body)
-    // next(new HTTPError(401, 'Ошибка авторизации', 'login'))
+  async login(
+    req: Request<{}, {}, UserLoginDto>,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> {
+    const result = await this.userService.validateUser(req.body)
+    if (!result) {
+      return next(new HTTPError(401, 'Ошибка авторизации', 'login'))
+    }
     this.ok(res, 'login')
   }
 
