@@ -1,6 +1,14 @@
 ## dashboard-api
 Express application on Node.js
 
+### .env file
+```
+# Inside .env file...
+
+SALT=
+SECRET=
+```
+
 ## Run
 1. `npm i`
 2. `npx prisma init`
